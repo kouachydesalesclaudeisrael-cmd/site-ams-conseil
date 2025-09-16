@@ -1,0 +1,36 @@
+
+import React from 'react';
+import { AcademicCapIcon } from '../components/Icons';
+import { Link } from 'react-router-dom';
+
+const TrainingArea: React.FC = () => {
+    return (
+        <div className="bg-slate-50 min-h-[80vh] flex items-center">
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+                <div className="max-w-3xl mx-auto text-center">
+                    <AcademicCapIcon className="h-20 w-20 mx-auto text-blue-500" />
+                    <h1 className="mt-4 text-4xl font-extrabold text-slate-900 sm:text-5xl tracking-tight">
+                        Espace Formation
+                    </h1>
+                    <p className="mt-4 text-xl text-slate-500">
+                        Bienvenue dans votre espace d'apprentissage. Accédez à vos modules de formation, suivez votre progression et interagissez avec vos formateurs.
+                    </p>
+                    <div className="mt-8 bg-white p-8 rounded-lg shadow-md border border-slate-200">
+                        <h2 className="text-2xl font-bold text-slate-800">Accès sécurisé</h2>
+                        <p className="mt-2 text-slate-600">Cette section est réservée aux participants inscrits à nos formations. Veuillez vous connecter pour continuer.</p>
+                        <div className="mt-6">
+                            <a href="#" className="inline-block bg-blue-600 text-white font-semibold py-3 px-8 rounded-lg hover:bg-blue-700 transition-colors">
+                                Se connecter
+                            </a>
+                        </div>
+                        <p className="mt-4 text-sm text-slate-500">
+                            Pas encore inscrit ? <Link to="/services/formation-sage" className="font-medium text-blue-600 hover:underline">Découvrez notre formation Sage</Link>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default TrainingArea;

@@ -1,0 +1,95 @@
+
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { SERVICES } from '../constants';
+import { ChevronRightIcon } from '../components/Icons';
+
+const Home: React.FC = () => {
+    return (
+        <div>
+            {/* Hero Section */}
+            <div className="relative bg-gradient-to-br from-blue-600 to-blue-800 text-white">
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 text-center">
+                    <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight">
+                        <span className="block">Pilotez votre succès.</span>
+                        <span className="block text-blue-300 mt-2">Nous sécurisons votre croissance.</span>
+                    </h1>
+                    <p className="mt-6 max-w-2xl mx-auto text-lg md:text-xl text-blue-100">
+                        AMS vous accompagne à chaque étape de votre vie d'entrepreneur, de la création à la gestion stratégique, pour transformer vos ambitions en réalité.
+                    </p>
+                    <div className="mt-10">
+                        <Link
+                            to="/diagnostic"
+                            className="inline-block bg-white text-blue-700 font-semibold py-3 px-8 rounded-full text-lg hover:bg-blue-50 transition-transform transform hover:scale-105"
+                        >
+                            Faire un diagnostic gratuit
+                        </Link>
+                    </div>
+                </div>
+            </div>
+
+            {/* Services Section */}
+            <div className="py-16 sm:py-24 bg-slate-50">
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="text-center">
+                        <h2 className="text-base font-semibold text-blue-600 tracking-wide uppercase">Nos Services</h2>
+                        <p className="mt-2 text-3xl font-extrabold text-slate-900 tracking-tight sm:text-4xl">
+                            Une expertise complète pour votre entreprise
+                        </p>
+                        <p className="mt-4 max-w-2xl mx-auto text-xl text-slate-500">
+                            Quel que soit votre besoin, nous avons une solution sur mesure.
+                        </p>
+                    </div>
+                    <div className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                        {SERVICES.slice(0, 3).map((service) => (
+                            <div key={service.id} className="bg-white rounded-lg shadow-md p-8 flex flex-col">
+                                <div className="flex-shrink-0">
+                                    <div className="inline-flex items-center justify-center h-12 w-12 rounded-md bg-blue-100 text-blue-600">
+                                        <service.icon className="h-6 w-6" aria-hidden="true" />
+                                    </div>
+                                </div>
+                                <div className="mt-4 flex-grow">
+                                    <h3 className="text-lg font-medium text-slate-900">{service.title}</h3>
+                                    <p className="mt-2 text-base text-slate-500">{service.description}</p>
+                                </div>
+                                <div className="mt-4">
+                                    <Link to={`/services/${service.id}`} className="text-blue-600 hover:text-blue-800 font-semibold text-sm">
+                                        En savoir plus <span aria-hidden="true">&rarr;</span>
+                                    </Link>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                    <div className="mt-10 text-center">
+                         <Link to="/services" className="text-xl font-semibold text-blue-600 hover:text-blue-800">
+                            Voir tous nos services <ChevronRightIcon className="inline h-6 w-6" />
+                        </Link>
+                    </div>
+                </div>
+            </div>
+
+            {/* Newsletter CTA */}
+            <div className="bg-white py-16 sm:py-24">
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                    <h2 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
+                        Ne manquez aucune actualité.
+                    </h2>
+                    <p className="mt-4 text-lg leading-6 text-slate-500">
+                        Inscrivez-vous à notre newsletter pour recevoir des conseils exclusifs.
+                    </p>
+                    <form className="mt-8 sm:flex justify-center">
+                        <label htmlFor="email-address" className="sr-only">Email address</label>
+                        <input id="email-address" name="email" type="email" autoComplete="email" required className="w-full sm:max-w-xs px-5 py-3 border border-slate-300 shadow-sm placeholder-slate-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md" placeholder="votre.email@exemple.com" />
+                        <div className="mt-3 rounded-md shadow sm:mt-0 sm:ml-3 sm:flex-shrink-0">
+                            <button type="submit" className="w-full flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
+                                Je m'inscris
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default Home;

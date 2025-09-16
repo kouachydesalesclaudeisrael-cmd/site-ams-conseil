@@ -1,0 +1,63 @@
+
+import { GoogleGenAI, Chat, GenerateContentResponse, Content } from "@google/genai";
+import type { QuizAnswers, ChatMessage } from '../types';
+
+if (!process.env.API_KEY) {
+    throw new Error("API_KEY environment variable is not set.");
+}
+
+const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+const model = 'gemini-2.5-flash';
+
+export const generateDiagnosis = async (answers: QuizAnswers): Promise<string> => {
+    const prompt = `
+        En tant que consultant expert pour le cabinet AMS, analysez les réponses suivantes d'un prospect à un quiz de diagnostic. 
+        Générez une analyse concise en français, structurée en Markdown, avec les sections "### Profil de votre entreprise" et "### Nos recommandations pour vous".
+        Le profil doit être une phrase synthétique. Proposez 3 recommandations concrètes et pertinentes, en liant chaque recommandation à un des services d'AMS si possible (Création d’Entreprise, Comptabilité & Fiscalité, Conseil Stratégique, Formation Sage, Mise à disposition de consultants).
+        Terminez par un appel à l'action invitant à un diagnostic plus approfondi avec un expert AMS.
+
+        Réponses du quiz :
+        - Stade de développement : ${answers.stage}
+        - Plus grand défi : ${answers.challenge}
+        - Taille de l'équipe : ${answers.teamSize}
+        - Secteur d'activité : ${answers.industry}
+    `;
+
+    try {
+        const response = await ai.models.generateContent({
+            model: model,
+            contents: prompt,
+        });
+        return response.text;
+    } catch (error) {
+        console.error("Error generating diagnosis:", error);
+        return "Nous avons rencontré une erreur lors de la génération de votre diagnostic. Veuillez réessayer plus tard ou nous contacter directement.";
+    }
+};
+
+let chatInstance: Chat | null = null;
+
+const getChatInstance = (): Chat => {
+    if (!chatInstance) {
+        const history: Content[] = [];
+        chatInstance = ai.chats.create({
+            model: model,
+            history: history,
+            config: {
+                systemInstruction: `Vous êtes un assistant virtuel pour AMS, un cabinet de conseil. Répondez en français. Votre rôle est de répondre brièvement aux questions sur les services d'AMS : 
+                1. Création d’entreprise (20 jours)
+                2. Comptabilité & fiscalité (tenue, bilans, déclarations)
+                3. Conseil stratégique
+                4. Formation sur logiciel Sage (en ligne, 1 mois)
+                5. Mise à disposition de consultants.
+                Restez concis et professionnel. Si une question est trop complexe ou sort de votre champ de compétence, invitez l'utilisateur à utiliser le formulaire de contact pour parler à un expert. Ne donnez pas de conseils financiers ou juridiques.`,
+            },
+        });
+    }
+    return chatInstance;
+};
+
+export const streamChatResponse = (message: string) => {
+    const chat = getChatInstance();
+    return chat.sendMessageStream({ message });
+};

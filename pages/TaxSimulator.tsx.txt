@@ -1,0 +1,104 @@
+
+import React, { useState, useMemo } from 'react';
+import { CalculatorIcon } from '../components/Icons';
+
+const TaxSimulator: React.FC = () => {
+    const [revenue, setRevenue] = useState<string>('');
+    const [expenses, setExpenses] = useState<string>('');
+    const TAX_RATE = 0.25; // Assuming a flat 25% tax rate for simplicity
+
+    const results = useMemo(() => {
+        const rev = parseFloat(revenue);
+        const exp = parseFloat(expenses);
+
+        if (isNaN(rev) || isNaN(exp) || rev < 0 || exp < 0 || rev < exp) {
+            return null;
+        }
+
+        const profit = rev - exp;
+        const estimatedTax = profit * TAX_RATE;
+        const netProfit = profit - estimatedTax;
+
+        return {
+            profit: profit.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' }),
+            estimatedTax: estimatedTax.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' }),
+            netProfit: netProfit.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' }),
+        };
+    }, [revenue, expenses]);
+    
+    return (
+        <div className="bg-slate-50 min-h-[80vh]">
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+                <div className="max-w-3xl mx-auto text-center">
+                    <CalculatorIcon className="h-16 w-16 mx-auto text-blue-500" />
+                    <h1 className="mt-4 text-4xl font-extrabold text-slate-900 sm:text-5xl tracking-tight">
+                        Simulateur Fiscal Simplifié
+                    </h1>
+                    <p className="mt-4 text-xl text-slate-500">
+                        Obtenez une estimation rapide de votre impôt sur les sociétés. Cet outil est à titre indicatif uniquement.
+                    </p>
+                </div>
+
+                <div className="mt-12 max-w-2xl mx-auto grid md:grid-cols-2 gap-8 items-start">
+                    <div className="bg-white p-8 rounded-lg shadow-lg space-y-6">
+                        <div>
+                            <label htmlFor="revenue" className="block text-sm font-medium text-slate-700">
+                                Chiffre d'affaires annuel (€)
+                            </label>
+                            <input
+                                type="number"
+                                id="revenue"
+                                value={revenue}
+                                onChange={(e) => setRevenue(e.target.value)}
+                                placeholder="50000"
+                                className="mt-1 py-2 px-3 block w-full shadow-sm focus:ring-blue-500 focus:border-blue-500 border-slate-300 rounded-md"
+                            />
+                        </div>
+                        <div>
+                            <label htmlFor="expenses" className="block text-sm font-medium text-slate-700">
+                                Charges déductibles annuelles (€)
+                            </label>
+                            <input
+                                type="number"
+                                id="expenses"
+                                value={expenses}
+                                onChange={(e) => setExpenses(e.target.value)}
+                                placeholder="20000"
+                                className="mt-1 py-2 px-3 block w-full shadow-sm focus:ring-blue-500 focus:border-blue-500 border-slate-300 rounded-md"
+                            />
+                        </div>
+                         <p className="text-xs text-slate-500">
+                           Basé sur un taux d'IS simplifié de {TAX_RATE * 100}%. Consultez un expert pour une analyse précise.
+                        </p>
+                    </div>
+                    
+                    <div className="bg-blue-600 text-white p-8 rounded-lg shadow-lg">
+                        <h3 className="text-2xl font-bold text-center">Estimation</h3>
+                        {results ? (
+                            <div className="mt-6 space-y-4 text-lg">
+                                <div className="flex justify-between items-center">
+                                    <span className="font-medium">Bénéfice imposable:</span>
+                                    <span className="font-bold text-blue-200">{results.profit}</span>
+                                </div>
+                                <div className="flex justify-between items-center border-t border-blue-500 pt-4">
+                                    <span className="font-medium">Impôt estimé:</span>
+                                    <span className="font-bold text-blue-200">{results.estimatedTax}</span>
+                                </div>
+                                <div className="flex justify-between items-center bg-white text-blue-700 rounded-md p-3 mt-4">
+                                    <span className="font-bold">Résultat net après impôt:</span>
+                                    <span className="font-bold text-xl">{results.netProfit}</span>
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="mt-6 text-center text-blue-200">
+                                <p>Veuillez saisir des montants valides pour calculer votre estimation.</p>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default TaxSimulator;

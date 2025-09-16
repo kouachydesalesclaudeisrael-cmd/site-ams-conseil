@@ -1,0 +1,90 @@
+
+import React from 'react';
+import { TEAM_MEMBERS } from '../constants';
+import { LightBulbIcon, UserGroupIcon } from '../components/Icons';
+
+const About: React.FC = () => {
+    return (
+        <div className="bg-white">
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+                {/* Header Section */}
+                <div className="text-center">
+                    <h1 className="text-4xl font-extrabold text-slate-900 sm:text-5xl sm:tracking-tight lg:text-6xl">
+                        Notre mission : être le moteur de votre réussite.
+                    </h1>
+                    <p className="mt-6 max-w-3xl mx-auto text-xl text-slate-500">
+                        Chez AMS, nous croyons que chaque entrepreneur mérite un partenaire de confiance pour naviguer les complexités du monde des affaires et réaliser son plein potentiel.
+                    </p>
+                </div>
+
+                {/* Vision & Mission Section */}
+                <div className="mt-20 grid md:grid-cols-2 gap-16 items-center">
+                    <div>
+                        <h2 className="text-3xl font-extrabold text-slate-900">Notre Vision & Mission</h2>
+                        <p className="mt-4 text-lg text-slate-500">
+                            Notre vision est de devenir le cabinet de conseil de référence pour les PME et les startups en France, reconnu pour son approche humaine, son expertise pointue et son impact tangible sur la croissance de ses clients.
+                        </p>
+                        <p className="mt-4 text-lg text-slate-500">
+                            Notre mission est de fournir des services de conseil et d'accompagnement de haute qualité, accessibles et personnalisés, qui permettent aux entrepreneurs de se concentrer sur leur cœur de métier en toute sérénité.
+                        </p>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                        <img className="rounded-lg shadow-lg" src="https://picsum.photos/400/500?random=10" alt="Bureau moderne" />
+                        <img className="rounded-lg shadow-lg mt-8" src="https://picsum.photos/400/500?random=11" alt="Equipe en réunion" />
+                    </div>
+                </div>
+
+                {/* Values Section */}
+                <div className="mt-24">
+                    <div className="text-center">
+                         <h2 className="text-3xl font-extrabold text-slate-900">Nos Valeurs Fondamentales</h2>
+                    </div>
+                    <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-10">
+                        <div className="text-center">
+                            <div className="flex items-center justify-center h-12 w-12 rounded-md bg-blue-100 text-blue-600 mx-auto">
+                                <UserGroupIcon className="h-6 w-6"/>
+                            </div>
+                            <h3 className="mt-5 text-lg font-medium text-slate-900">Proximité</h3>
+                            <p className="mt-2 text-base text-slate-500">Nous construisons des relations de long terme basées sur l'écoute et la confiance.</p>
+                        </div>
+                        <div className="text-center">
+                            <div className="flex items-center justify-center h-12 w-12 rounded-md bg-blue-100 text-blue-600 mx-auto">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            </div>
+                            <h3 className="mt-5 text-lg font-medium text-slate-900">Excellence</h3>
+                            <p className="mt-2 text-base text-slate-500">Nous visons la plus haute qualité dans chacune de nos interventions pour garantir votre satisfaction.</p>
+                        </div>
+                        <div className="text-center">
+                            <div className="flex items-center justify-center h-12 w-12 rounded-md bg-blue-100 text-blue-600 mx-auto">
+                                <LightBulbIcon className="h-6 w-6"/>
+                            </div>
+                            <h3 className="mt-5 text-lg font-medium text-slate-900">Pragmatisme</h3>
+                            <p className="mt-2 text-base text-slate-500">Nous apportons des solutions concrètes, opérationnelles et adaptées à votre réalité.</p>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Team Section */}
+                <div className="mt-24 bg-slate-50 rounded-lg py-16">
+                    <div className="text-center px-4">
+                        <h2 className="text-3xl font-extrabold text-slate-900">Rencontrez notre équipe</h2>
+                        <p className="mt-4 max-w-2xl mx-auto text-xl text-slate-500">
+                            Des experts passionnés et dédiés à votre service.
+                        </p>
+                    </div>
+                    <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 px-4">
+                        {TEAM_MEMBERS.map((member) => (
+                            <div key={member.name} className="text-center">
+                                <img className="mx-auto h-40 w-40 rounded-full object-cover" src={member.imageUrl} alt={member.name} />
+                                <h3 className="mt-6 text-lg font-medium text-slate-900">{member.name}</h3>
+                                <p className="text-blue-600">{member.role}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default About;

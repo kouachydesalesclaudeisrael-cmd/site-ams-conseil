@@ -1,0 +1,80 @@
+
+import React from 'react';
+import { useParams, Link, Navigate } from 'react-router-dom';
+import { SERVICES } from '../constants';
+import { CheckIcon } from '../components/Icons';
+
+const ServiceDetail: React.FC = () => {
+    const { serviceId } = useParams<{ serviceId: string }>();
+    const service = SERVICES.find(s => s.id === serviceId);
+
+    if (!service) {
+        return <Navigate to="/services" replace />;
+    }
+
+    return (
+        <div className="bg-white overflow-hidden">
+            <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-600 to-blue-800" />
+                <div className="relative container mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 text-center">
+                    <service.icon className="h-16 w-16 mx-auto text-white" />
+                    <h1 className="mt-4 text-4xl font-extrabold text-white sm:text-5xl tracking-tight">
+                        {service.title}
+                    </h1>
+                    <p className="mt-4 max-w-3xl mx-auto text-xl text-blue-100">
+                        {service.details.introduction}
+                    </p>
+                </div>
+            </div>
+
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 grid lg:grid-cols-3 gap-16">
+                {/* Main Content */}
+                <div className="lg:col-span-2">
+                    <h2 className="text-3xl font-extrabold text-slate-900">Notre démarche</h2>
+                    <div className="mt-8 space-y-8">
+                        {service.details.steps.map((step, index) => (
+                            <div key={index} className="flex">
+                                <div className="flex-shrink-0">
+                                    <div className="flex items-center justify-center h-12 w-12 rounded-full bg-blue-600 text-white font-bold text-xl">
+                                        {index + 1}
+                                    </div>
+                                </div>
+                                <div className="ml-4">
+                                    <h3 className="text-lg font-medium text-slate-900">{step.title}</h3>
+                                    <p className="mt-2 text-base text-slate-500">{step.description}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Sidebar */}
+                <aside>
+                    <div className="bg-slate-50 p-8 rounded-lg sticky top-28">
+                        <h3 className="text-xl font-bold text-slate-900">Vos avantages</h3>
+                        <ul className="mt-6 space-y-4">
+                            {service.details.benefits.map((benefit, index) => (
+                                <li key={index} className="flex items-start">
+                                    <div className="flex-shrink-0">
+                                        <CheckIcon className="h-6 w-6 text-green-500" />
+                                    </div>
+                                    <p className="ml-3 text-base text-slate-600">{benefit}</p>
+                                </li>
+                            ))}
+                        </ul>
+                        <div className="mt-8">
+                            <Link 
+                                to="/contact"
+                                className="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
+                            >
+                                Parlons de votre projet
+                            </Link>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    );
+};
+
+export default ServiceDetail;
